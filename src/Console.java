@@ -22,7 +22,7 @@ public class Console {
 		g.add(2, 6, 24);
 		g.add(6, 7, 2435235);
 
-		System.out.println(g);		
+		System.out.println(g.getNeighbours(2));		
 
 
 

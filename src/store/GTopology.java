@@ -47,7 +47,20 @@ class Vertex {
 	}
 
 	public Integer[] getNeighbours() {
-		Integer[] a = this.edgelist.toArray(new Integer[this.edgelist.size()]);
+		// Integer[] a = this.edgelist.toArray(new Integer[this.edgelist.size()]);
+		Integer[] a = new Integer[this.edgelist.size()];
+		for (int i=0; i<this.edgelist.size(); i++) {
+			a[i] = this.edgelist.get(i).dst;
+		}
+		return a;
+	}
+
+	public Long[] getEdges() {
+		// Integer[] a = this.edgelist.toArray(new Integer[this.edgelist.size()]);
+		Long[] a = new Long[this.edgelist.size()];
+		for (int i=0; i<this.edgelist.size(); i++) {
+			a[i] = this.edgelist.get(i).eid;
+		}
 		return a;
 	}
 
@@ -95,6 +108,16 @@ public class GTopology {
 		}
 		else {
 			return this.str.get(at).getNeighbours();
+		}
+	}
+
+	public Long[] getEdges(int v) {
+		int at = this.searchVertex(v);
+		if(at == -1) {
+			return null;
+		}
+		else {
+			return this.str.get(at).getEdges();
 		}
 	}
 
