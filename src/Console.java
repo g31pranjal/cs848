@@ -18,9 +18,9 @@ public class Console {
 		// Query  q = p.parseFromFile("./query.json");
 
 		GTopology g = new GTopology();
-		g.add(2, 4);
-		g.add(2, 6);
-		g.add(6, 7);
+		g.add(2, 4, 2324);
+		g.add(2, 6, 24);
+		g.add(6, 7, 2435235);
 
 		System.out.println(g);		
 

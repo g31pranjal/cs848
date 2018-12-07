@@ -4,10 +4,12 @@ JFLAGS = -d build/ -classpath build/
 all:
 	rm -rf build/exec/
 	rm -rf build/store/
-	$(JC) $(JFLAGS) keystore.java
-	$(JC) $(JFLAGS) valuestore.java
-	$(JC) $(JFLAGS) query.java
-	$(JC) $(JFLAGS) parser.java
+	$(JC) $(JFLAGS) src/store/KeyStore.java
+	$(JC) $(JFLAGS) src/store/ValueStore.java
+	$(JC) $(JFLAGS) src/store/GTopology.java
+	$(JC) $(JFLAGS) src/exec/Query.java
+	$(JC) $(JFLAGS) src/exec/Parser.java
+	$(JC) $(JFLAGS) src/Console.java
 
 
 clean :

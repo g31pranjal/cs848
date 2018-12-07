@@ -2,22 +2,47 @@ package store;
 import java.util.List;
 import java.util.Collections;
 import java.util.ArrayList;
+import java.util.Comparator;
+
+
+class Neighbour {
+	public Integer dst;
+	public Long eid;
+	
+	public Neighbour(int a, long b) {
+		this.dst = a;
+		this.eid = b;
+	}
+
+	public String toString() {
+		return this.dst.toString()+":"+this.eid.toString();
+	}
+
+}
+
+
+class NeighbourCompare implements Comparator<Neighbour> {
+	@Override
+	public int compare(Neighbour a, Neighbour b) {
+		return a.dst.compareTo(b.dst);
+	}
+}
 
 
 class Vertex {
-	public Integer v;
-	private List<Integer> edgelist;
+	public Integer vid;
+	private List<Neighbour> edgelist;
 
 	Vertex(Integer val) {
-		this.v = val;
-		this.edgelist = new ArrayList<Integer>();
+		this.vid = val;
+		this.edgelist = new ArrayList<Neighbour>();
 	}
 
-	public void addEdge(int edge) {
+	public void addEdge(int edge, long eid) {
 		int i = this.edgelist.indexOf(edge);
 		if(i == -1) {
-			this.edgelist.add(edge);
-			Collections.sort(this.edgelist);
+			this.edgelist.add(new Neighbour(edge, eid));
+			Collections.sort(this.edgelist, new NeighbourCompare());
 		}
 	}
 
@@ -27,12 +52,10 @@ class Vertex {
 	}
 
 	public String toString() {
-		String a = this.v.toString() + " -> ";
+		String a = this.vid.toString() + " -> ";
 		a += this.edgelist.toString();
 		return a;
 	}
-
-
 }
 
 
@@ -47,21 +70,21 @@ public class GTopology {
 	public int searchVertex(int val) {
 		for(int i=0;i<this.str.size();i++) {
 			Vertex v = this.str.get(i);
-			if(v.v == val)
+			if(v.vid == val)
 				return i;
 		}
 		return -1;
 	}
 
-	public void add(int src, int dst) {
+	public void add(int src, int dst, long eid) {
 		int at = this.searchVertex(src);
 		if(at == -1) {
 			Vertex v = new Vertex(src);
-			v.addEdge(dst);
+			v.addEdge(dst, eid);
 			this.str.add(v);
 		}
 		else {
-			this.str.get(at).addEdge(dst);
+			this.str.get(at).addEdge(dst, eid);
 		}
 	}
 
@@ -83,13 +106,13 @@ public class GTopology {
 		return a;
 	}
 
-
-
-
-
+	public Integer[] getVertices() {
+		Integer[] vs = new Integer[this.str.size()];
+		for(int i=0;i<this.str.size();i++) {
+			vs[i] = this.str.get(i).vid;
+		}
+		return vs;
+	}
 
 }
-
-
-
 
