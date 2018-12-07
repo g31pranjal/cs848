@@ -1,11 +1,10 @@
 import exec.Query;
 import exec.Parser;
-import store.GTopology;
+import store.Graph;
+import exec.Execute;
 
 public class Console {
 
-	// read the dataset
-	// execute the query 
 
 	// get the result and display
 
@@ -14,16 +13,16 @@ public class Console {
 	public static void main(String[] args) {
 		
 		// read the query 
-		// Parser p = new Parser();
-		// Query  q = p.parseFromFile("./query.json");
+		Parser p = new Parser();
+		Query  q = p.parseFromFile("./query.json");
 
-		GTopology g = new GTopology();
-		g.add(2, 4, 2324);
-		g.add(2, 6, 24);
-		g.add(6, 7, 2435235);
+		// read the dataset
+		Graph g = new Graph();
+		DatasetParser dp = new DatasetParser(g);
+		dp.parseFromFile("./amazon0505");
 
-		System.out.println(g.getNeighbours(2));		
-
+		// execute the query 
+		Execute ex = new Execute(g, q);
 
 
 		// System.out.println(q);

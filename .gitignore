@@ -1,0 +1,3 @@
+build/exec/
+build/store/
+*.class

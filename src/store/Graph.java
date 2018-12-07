@@ -1,6 +1,6 @@
 package store;
 
-class Graph {
+public class Graph {
 
 	private KeyStore keystore;
 	private ValueStore valuestore;
@@ -23,19 +23,11 @@ class Graph {
 		return this.gtout.getNeighbours(a);
 	}
 
-	public Integer[] getNeighbours(int a) {
-		return this.gtout.getNeighbours(a);
-	}
-
 	public Integer[] getInNeighbours(int a) {
 		return this.gtin.getNeighbours(a);
 	}
 
 	public Long[] getOutEdges(int a) {
-		return this.gtout.getEdges(a);
-	}
-
-	public Long[] getEdges(int a) {
 		return this.gtout.getEdges(a);
 	}
 

@@ -10,6 +10,8 @@ all:
 	$(JC) $(JFLAGS) src/store/Graph.java
 	$(JC) $(JFLAGS) src/exec/Query.java
 	$(JC) $(JFLAGS) src/exec/Parser.java
+	$(JC) $(JFLAGS) src/exec/Execute.java
+	$(JC) $(JFLAGS) src/DatasetParser.java
 	$(JC) $(JFLAGS) src/Console.java
 
 
