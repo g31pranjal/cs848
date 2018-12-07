@@ -26,7 +26,7 @@ class WhereSeg {
 	}
 }
 
-class Query {
+public class Query {
 	public List<MatchSeg> matches;
 	public List<WhereSeg> wheres;
 

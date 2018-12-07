@@ -5,11 +5,11 @@ import org.json.simple.JSONObject;
 import java.io.FileReader;
 import java.util.Iterator;
 
-class Parser {
+public class Parser {
 
 	private JSONParser parser;
 
-	Parser() {
+	public Parser() {
 		this.parser = new JSONParser();
 	}
 
