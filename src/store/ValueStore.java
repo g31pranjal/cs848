@@ -46,8 +46,15 @@ class ValueStore {
 		return at;
 	}
 
-	public String getTypeAt(int index) {
+	public boolean isValid(int index) {
 		if(index == 0 || this.a.get(index-1) == -1) {
+			return true;
+		}
+		return false;
+	}
+
+	public String getTypeAt(int index) {
+		if(this.isValid(index)) {
 			if(this.a.get(index) == 0)
 				return "string";
 			else 
@@ -57,21 +64,27 @@ class ValueStore {
 			return null;
 	}
 
-	public int getNumAt(int index) {
-		int i = 0;
-		i = this.a.get(index+2) + 128*(this.a.get(index+3) + 
-			128*(this.a.get(index+4) + 128*this.a.get(index+5) ) );
-		if(this.a.get(index+1) == 1)
-			i = -i;
-		return i;
+	public Integer getNumAt(int index) {
+		if(this.isValid(index)) {
+			int i = 0;
+			i = this.a.get(index+2) + 128*(this.a.get(index+3) + 
+				128*(this.a.get(index+4) + 128*this.a.get(index+5) ) );
+			if(this.a.get(index+1) == 1)
+				i = -i;
+			return i;		
+		}
+		return null;
 	}
 
 	public String getStringAt(int index) {
-		String i = "";
-		index++;
-		while(this.a.get(index) != -1)
-			i = i + (char)((int)this.a.get(index++));
-		return i;
+		if(this.isValid(index)) {
+			String i = "";
+			index++;
+			while(this.a.get(index) != -1)
+				i = i + (char)((int)this.a.get(index++));
+			return i;		
+		}
+		return null;
 	}
 
 	public int size() {

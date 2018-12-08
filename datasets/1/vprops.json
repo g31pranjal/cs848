@@ -1,0 +1,25 @@
+{
+	"properties" :[
+		{ "vid" : 2 , "key" : "AA", "val" : "hola1"}, 
+		{ "vid" : 3 , "key" : "AB", "val" : "hola2"}, 
+		{ "vid" : 34 , "key" : "AC", "val" : 24}, 
+		{ "vid" : 8 , "key" : "AD", "val" : "hola4"}, 
+		{ "vid" : 6 , "key" : "AA", "val" : "hola5"}, 
+		{ "vid" : 1 , "key" : "AB", "val" : "hola6"}, 
+		{ "vid" : 24 , "key" : "AC", "val" : 224}, 
+		{ "vid" : 8 , "key" : "AD", "val" : "hola8"}, 
+		{ "vid" : 2 , "key" : "AA", "val" : "hola9"}, 
+		{ "vid" : 34 , "key" : "AB", "val" : "hola10"}, 
+		{ "vid" : 6 , "key" : "AC", "val" : 14}, 
+		{ "vid" : 7 , "key" : "AD", "val" : "hola12"}, 
+		{ "vid" : 5 , "key" : "AA", "val" : "hola13"}, 
+		{ "vid" : 24 , "key" : "AB", "val" : "hola14"}, 
+		{ "vid" : 1 , "key" : "AC", "val" : 4}, 
+		{ "vid" : 5 , "key" : "AD", "val" : "hola16"}, 
+		{ "vid" : 3 , "key" : "AA", "val" : "hola17"}, 
+		{ "vid" : 1 , "key" : "AB", "val" : "hola18"}, 
+		{ "vid" : 7 , "key" : "AC", "val" : 92424}, 
+		{ "vid" : 34 , "key" : "AD", "val" : "hola20"}, 
+		{ "vid" : 5 , "key" : "AA", "val" : "hola21"}, 
+	]
+}

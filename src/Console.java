@@ -1,7 +1,7 @@
 import exec.Query;
 import exec.Parser;
 import store.Graph;
-import exec.Execute;
+// import exec.Execute;
 
 public class Console {
 
@@ -18,11 +18,13 @@ public class Console {
 
 		// read the dataset
 		Graph g = new Graph();
-		DatasetParser dp = new DatasetParser(g);
-		dp.parseFromFile("./amazon0505");
+		DatasetParser dp = new DatasetParser(g, "./datasets/1/");
+		dp.parse();
+
+		System.out.println(g);
 
 		// execute the query 
-		Execute ex = new Execute(g, q);
+		// Execute ex = new Execute(g, q);
 
 
 		// System.out.println(q);
