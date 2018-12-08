@@ -10,7 +10,7 @@ public class PropertyStore {
 
 	public PropertyStore() {
 		this.a = new ArrayList<Byte>();
-		this.a.add((byte)-127);
+		this.a.add((byte)-1);
 	}
 
 	public int addProperty(int ref, short key, String val) {
@@ -70,7 +70,10 @@ public class PropertyStore {
 	}
 
 	public boolean isValid(int index) {
-		if(index == 0 || this.a.get(index-1) == -1) {
+		if(index == 0) {
+			return false;
+		}
+		if(this.a.get(index-1) == -1) {
 			return true;
 		}
 		return false;
@@ -131,6 +134,28 @@ public class PropertyStore {
 
 	public int size() {
 		return this.a.size();
+	}
+
+	public String toString() {
+
+		int i = 1;
+		String a = "";
+		while(i < this.a.size()) {
+			if(this.isValid(i)) {
+				a += this.getKeyAt(i).toString() + ", ";
+				a += this.getRefAt(i).toString() + ", ";
+				if(this.getTypeAt(i).equals("num"))
+					a += this.getNumAt(i).toString();
+				else
+					a += this.getStringAt(i).toString();
+				a += "\n";
+			}
+			i++;
+		}
+
+		return a;
+
+
 	}
 
 	

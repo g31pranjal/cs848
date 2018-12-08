@@ -77,7 +77,9 @@ public class Graph {
 	// get 
 
 	public String toString() {
-		return this.gtout.toString() + "\n" + this.gtin.toString();
+		return this.gtout.toString() + 
+				"\n" + this.gtin.toString() + 
+				"\n" + this.vPropStore.toString();
 	}
 
 
