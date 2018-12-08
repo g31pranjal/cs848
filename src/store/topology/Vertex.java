@@ -14,12 +14,15 @@ class Vertex {
 		this.vprop = 0;
 	}
 
-	public void addEdge(int edge, long eid) {
-		int i = this.edgelist.indexOf(edge);
-		if(i == -1) {
-			this.edgelist.add(new Neighbour(edge, eid));
-			Collections.sort(this.edgelist, new NeighbourCompare());
+	public Neighbour addEdge(int edge, long eid) {
+		for(int j=0;j<this.edgelist.size();j++) {
+			if(this.edgelist.get(j).dst == edge)
+				return this.edgelist.get(j);
 		}
+		Neighbour n = new Neighbour(edge, eid);
+		this.edgelist.add(n);
+		Collections.sort(this.edgelist, new NeighbourCompare());
+		return n;
 	}
 
 	public Integer[] getNeighbours() {

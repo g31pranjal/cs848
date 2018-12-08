@@ -68,6 +68,32 @@ public class DatasetParser {
 			e.printStackTrace();
 		}
 
+		System.out.println("reading edge properties ...");
+		try {
+			Object obj = this.parser.parse(new FileReader(this.eProperties_path));
+			JSONObject jsonObject = (JSONObject) obj;
+
+			JSONArray cons = (JSONArray) jsonObject.get("properties");
+
+			Iterator<JSONObject> iterator = cons.iterator();
+			while (iterator.hasNext()) {
+				JSONObject ent = iterator.next();
+				long eid = ((Long)ent.get("eid")).longValue();
+				String key = (String)ent.get("key");
+				try {
+					int val = ((Long)ent.get("val")).intValue();
+					this.graph.addEdgeProperty(eid, key, val);
+				}
+				catch (Exception e) {
+					String val = (String)ent.get("val");
+					this.graph.addEdgeProperty(eid, key, val);
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+
 
 
 

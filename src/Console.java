@@ -1,7 +1,7 @@
 import exec.Query;
 import exec.Parser;
 import store.Graph;
-// import exec.Execute;
+import exec.Execute;
 
 public class Console {
 
@@ -24,7 +24,7 @@ public class Console {
 		System.out.println(g);
 
 		// execute the query 
-		// Execute ex = new Execute(g, q);
+		Execute ex = new Execute(g, q);
 
 
 		// System.out.println(q);

@@ -1,7 +1,7 @@
 package store.topology;
 import java.util.Comparator;
 
-class Neighbour {
+public class Neighbour {
 	public Integer dst;
 	public Long eid;
 	public Integer eprop;
@@ -10,6 +10,14 @@ class Neighbour {
 		this.dst = a;
 		this.eid = b;
 		this.eprop = 0;
+	}
+
+	public Integer getPropIndex() {
+		return this.eprop;
+	}
+
+	public void setPropIndex(int i) {
+		this.eprop = i;
 	}
 
 	public String toString() {

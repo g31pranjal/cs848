@@ -31,15 +31,15 @@ public class GTopology {
 		this.str.get(i).setPropIndex(n);
 	}
 
-	public void add(int src, int dst, long eid) {
+	public Neighbour add(int src, int dst, long eid) {
 		int at = this.searchVertex(src);
 		if(at == -1) {
 			Vertex v = new Vertex(src);
-			v.addEdge(dst, eid);
 			this.str.add(v);
+			return v.addEdge(dst, eid);
 		}
 		else {
-			this.str.get(at).addEdge(dst, eid);
+			return this.str.get(at).addEdge(dst, eid);
 		}
 	}
 

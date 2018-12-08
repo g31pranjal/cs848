@@ -11,8 +11,8 @@ public class Execute {
 		this.g = g;
 	}
 
-	public void now(String planCode) {
-		
+	public void plan() {
+
 	}
 
 
