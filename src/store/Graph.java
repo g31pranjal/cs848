@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.ArrayList;
 import store.topology.GTopology;
 import store.topology.Neighbour;
+import store.topology.Result;
+import java.util.Iterator;
 
-public class Graph {
+
+public class Graph{
 
 	private KeyStore keystore;
 	private ValueStore valuestore;
@@ -113,6 +116,18 @@ public class Graph {
 				"\n" + this.vPropStore.toString() + 
 				"\n\n" + this.ePropStore.toString();
 	}
+
+	public Iterator<Result> scanByEdges() {
+		return this.gtout.iterator();
+	}
+
+	// public getEProps(int i) {
+
+	// }
+
+	// public getEProps(int i) {
+
+	// }
 
 
 }

@@ -2,7 +2,7 @@ import exec.Query;
 import exec.Parser;
 import store.Graph;
 import exec.Execute;
-
+	
 public class Console {
 
 
@@ -25,9 +25,9 @@ public class Console {
 
 		// execute the query 
 		Execute ex = new Execute(g, q);
+		
+		ex.getPlan();
 
-
-		// System.out.println(q);
 
 	}
 

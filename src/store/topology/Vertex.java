@@ -6,7 +6,7 @@ import java.util.ArrayList;
 class Vertex {
 	public Integer vid;
 	public Integer vprop;
-	private List<Neighbour> edgelist;
+	public List<Neighbour> edgelist;
 
 	Vertex(Integer val) {
 		this.vid = val;

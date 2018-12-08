@@ -3,10 +3,9 @@ import java.util.List;
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 
-
-
-public class GTopology {
+public class GTopology implements Iterable {
 
 	private List<Vertex> str;
 
@@ -77,6 +76,48 @@ public class GTopology {
 			vs[i] = this.str.get(i).vid;
 		}
 		return vs;
+	}
+
+	@Override 
+	public Iterator<Result> iterator() {
+		Iterator<Result> it = new Iterator<Result>() {
+
+			private int vtrack = 0;
+			private int etrack = 0;
+
+			@Override
+			public boolean hasNext() {
+				if(vtrack + 1 == str.size()) {
+					if(etrack >= str.get(vtrack).edgelist.size())
+						return false;
+					else 
+						return true;
+				}
+				else if(vtrack < str.size())
+					return true;
+				return false;
+			}
+
+			@Override
+			public Result next() {	
+				Vertex v = str.get(vtrack);
+				if(!(etrack < v.edgelist.size()) ) {
+					vtrack++;
+					etrack = 0;
+				}
+				v = str.get(vtrack);
+				Neighbour e = v.edgelist.get(etrack);
+				etrack++;
+
+				Result r = new Result();
+				r.path.add(v.vid);
+				r.path.add(e.dst);
+				r.edges.add(e.eid);
+				r.valid = true;
+				return r;
+			}
+		};
+		return it;
 	}
 
 }

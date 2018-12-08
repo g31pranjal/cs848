@@ -4,6 +4,7 @@ JFLAGS = -d build/ -classpath build/
 all:
 	# rm -rf build/exec/
 	# rm -rf build/store/
+	$(JC) $(JFLAGS) src/store/topology/Result.java
 	$(JC) $(JFLAGS) src/store/topology/Neighbour.java
 	$(JC) $(JFLAGS) src/store/topology/Vertex.java
 	$(JC) $(JFLAGS) src/store/topology/GTopology.java
