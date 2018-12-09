@@ -71,6 +71,10 @@ public class GraphBTree extends Graph {
 		ePropBTree.insert(k, e);
 	}
 
+	// public void searchByProperty(String key) {
+		
+	// }
+
 
 	public String toString() {
 		return this.gtout.toString() + 

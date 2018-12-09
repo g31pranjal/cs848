@@ -11,11 +11,9 @@ public class Execute {
 
 	private Query q;
 	private Graph g;
-
-	public Execute(Graph g, Query q) {
-		this.q = q;
-		this.g = g;
-	}
+	private String plan;
+	// - vanilla, btree
+	private String varient;
 
 	public String getPlan() {
 		if(this.q.matches.size() == 1 && this.q.wheres.size() == 1 )
@@ -28,9 +26,13 @@ public class Execute {
 			return "unknown";
 	}
 
-	// public List<Result> extendLeft(List<Result> lr) {
+	public Execute(Graph g, Query q, String varient) {
+		this.q = q;
+		this.g = g;
+		this.plan = getPlan();
+		this.varient = varient;
+	}
 
-	// }
 
 	public List<Result> extendRight(List<Result> lr) {
 		List<Result> res = new ArrayList<Result>();
@@ -150,36 +152,39 @@ public class Execute {
 
 	public void getResults(String varient) {
 		String plan = this.getPlan();
-		List<Result> res;
+		List<Result> res, res1, res2;
 
 		if(plan.equals("plan1")) {
-			if(varient.equals("var1")) {
+			if(varient.equals("vanilla")) {
 				res = this.scanNFilter(0);
 			}
-			else if(varient.equals("var2")) {
+			else if(varient.equals("btree")) {
 
 			}
 		}
 		else if(plan.equals("plan2")) {
-			if(varient.equals("var1")) {
+			if(varient.equals("vanilla")) {
 				System.out.println("p2v1");
 				res = this.scanNFilter(0);
 				System.out.println(res);
-				res = this.extendLeft(res);
+				res = this.extendRight(res);
 				System.out.println(res);
-				res = this.extendLeft(res);
+				res = this.extendRight(res);
 				System.out.println(res);
 			}
-			else if(varient.equals("var2")) {
+			else if(varient.equals("btree")) {
 
 			}
 		}
 		else if(plan.equals("plan3")) {
-			if(varient.equals("var1")) {
-				this.scanNFilter(0);
-				this.scanNFilter(1);
+			if(varient.equals("vanilla")) {
+				System.out.println("p3v1");
+				res1 = this.scanNFilter(0);
+				res1 = this.extendLeft(res1);
+				res2 = this.scanNFilter(1);
+				res2 = this.extendLeft(res2);
 			}
-			else if(varient.equals("var2")) {
+			else if(varient.equals("btree")) {
 
 			}
 		}
