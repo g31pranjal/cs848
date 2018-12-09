@@ -1,6 +1,7 @@
 package exec;
 import store.Graph;
 import store.GraphVanilla;
+import store.GraphBTree;
 import store.topology.Result;
 import java.util.Iterator;
 import java.util.Map;
@@ -150,7 +151,7 @@ public class Execute {
 		return ret;
 	}
 
-	public void getResults(String varient) {
+	public void getResults() {
 		String plan = this.getPlan();
 		List<Result> res, res1, res2;
 
@@ -173,7 +174,9 @@ public class Execute {
 				System.out.println(res);
 			}
 			else if(varient.equals("btree")) {
-
+				System.out.println("p2bt");
+				res = ((GraphBTree)this.g).searchByProperty(this.q.wheres.get(0).prop);
+				System.out.println(res);
 			}
 		}
 		else if(plan.equals("plan3")) {

@@ -61,12 +61,7 @@ public class GraphVanilla extends Graph{
 		int d = this.ePropStore.addProperty(b, k, val);
 
 		a.get(0).setPropIndex(d);
-		a.get(1).setPropIndex(d);
-		
-		System.out.println(a.get(0).src);
-		System.out.println(a.get(0).dst);
-		System.out.println(a.get(0).eid);
-		
+		a.get(1).setPropIndex(d);		
 	}
 
 	public void addEdgeProperty(long eid, String key, String val) {
@@ -79,7 +74,6 @@ public class GraphVanilla extends Graph{
 
 		a.get(0).setPropIndex(d);
 		a.get(1).setPropIndex(d);
-
 	}
 
 

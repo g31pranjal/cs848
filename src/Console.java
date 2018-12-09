@@ -2,6 +2,7 @@ import exec.Query;
 import exec.Parser;
 import store.Graph;
 import store.GraphVanilla;
+import store.GraphBTree;
 import exec.Execute;
 	
 public class Console {
@@ -18,15 +19,15 @@ public class Console {
 		Query  q = p.parseFromFile("./queries/query2.json");
 
 		// read the dataset
-		GraphVanilla g = new GraphVanilla();
+		Graph g = new GraphBTree();
 		DatasetParser dp = new DatasetParser(g, "./datasets/1/");
 		dp.parse();
 
 		// System.out.println(g);
 
 		// execute the query 
-		Execute ex = new Execute(g, q);		
-		ex.getResults("var1");
+		Execute ex = new Execute(g, q, "btree");		
+		ex.getResults();
 
 
 	}
