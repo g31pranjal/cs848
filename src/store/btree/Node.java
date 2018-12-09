@@ -5,12 +5,12 @@ enum NodeType {
 	lNode
 }
 
-abstract class Node {
-	protected Short[] keys;
+abstract class Node<tKey extends Comparable<tKey> > {
+	protected Object[] keys;
 	protected int keyCount;
-	protected Node parentNode;
-	protected Node leftSibling;
-	protected Node rightSibling;
+	protected Node<tKey> parentNode;
+	protected Node<tKey> leftSibling;
+	protected Node<tKey> rightSibling;
 	
 
 	protected Node() {
@@ -24,55 +24,37 @@ abstract class Node {
 		return this.keyCount;
 	}
 
-	// @SuppressWarnings("unchecked")
-	public Short getKey(int index) {
-		return this.keys[index];
+	@SuppressWarnings("unchecked")
+	public tKey getKey(int index) {
+		return (tKey)this.keys[index];
 	}
 
-	public void setKey(int index, Short key) {
+	public void setKey(int index, tKey key) {
 		this.keys[index] = key;
 	}
 
-	public Node getParent() {
+	public Node<tKey> getParent() {
 		return this.parentNode;
 	}
 
-	public void setParent(Node parent) {
+	public void setParent(Node<tKey> parent) {
 		this.parentNode = parent;
 	}	
 	
 
 	public abstract NodeType getNodeType();
 	
-	public abstract int search(Short key);
+	public abstract int search(tKey key);
 	
 	public boolean isOverflow() {
 		return this.getKeyCount() == this.keys.length;
 	}
 	
-	public Node dealOverflow() {
-		int midIndex = this.getKeyCount() / 2;
-		Short upKey = this.getKey(midIndex);
-
-		Node newRNode = this.split();
-
-		if (this.getParent() == null) {
-			this.setParent(new INode());
-		}
-		newRNode.setParent(this.getParent());
-		
-		newRNode.setLeftSibling(this);
-		newRNode.setRightSibling(this.rightSibling);
-		if (this.getRightSibling() != null)
-			this.getRightSibling().setLeftSibling(newRNode);
-		this.setRightSibling(newRNode);
-		
-		return this.getParent().pushUpKey(upKey, this, newRNode);
-	}
+	public abstract Node<tKey> dealOverflow();
 	
-	protected abstract Node split();
+	protected abstract Node<tKey> split();
 	
-	protected abstract Node pushUpKey(Short key, Node leftChild, Node rightNode);
+	protected abstract Node<tKey> pushUpKey(tKey key, Node<tKey> leftChild, Node<tKey> rightNode);
 	
 
 
@@ -87,23 +69,23 @@ abstract class Node {
 	// 	return this.getKeyCount() > (this.keys.length / 2);
 	// }
 	
-	public BTreeNode<TKey> getLeftSibling() {
+	public Node<tKey> getLeftSibling() {
 		if (this.leftSibling != null && this.leftSibling.getParent() == this.getParent())
 			return this.leftSibling;
 		return null;
 	}
 
-	public void setLeftSibling(BTreeNode<TKey> sibling) {
+	public void setLeftSibling(Node<tKey> sibling) {
 		this.leftSibling = sibling;
 	}
 
-	public BTreeNode<TKey> getRightSibling() {
+	public Node<tKey> getRightSibling() {
 		if (this.rightSibling != null && this.rightSibling.getParent() == this.getParent())
 			return this.rightSibling;
 		return null;
 	}
 
-	public void setRightSibling(BTreeNode<TKey> silbling) {
+	public void setRightSibling(Node<tKey> silbling) {
 		this.rightSibling = silbling;
 	}
 	
@@ -133,11 +115,11 @@ abstract class Node {
 	// 	}
 	// }
 	
-	protected abstract void processChildrenTransfer(BTreeNode<TKey> borrower, BTreeNode<TKey> lender, int borrowIndex);
+	// protected abstract void processChildrenTransfer(BTreeNode<TKey> borrower, BTreeNode<TKey> lender, int borrowIndex);
 	
-	protected abstract BTreeNode<TKey> processChildrenFusion(BTreeNode<TKey> leftChild, BTreeNode<TKey> rightChild);
+	// protected abstract BTreeNode<TKey> processChildrenFusion(BTreeNode<TKey> leftChild, BTreeNode<TKey> rightChild);
 	
-	protected abstract void fusionWithSibling(TKey sinkKey, BTreeNode<TKey> rightSibling);
+	// protected abstract void fusionWithSibling(TKey sinkKey, BTreeNode<TKey> rightSibling);
 	
-	protected abstract TKey transferFromSibling(TKey sinkKey, BTreeNode<TKey> sibling, int borrowIndex);
+	// protected abstract TKey transferFromSibling(TKey sinkKey, BTreeNode<TKey> sibling, int borrowIndex);
 }

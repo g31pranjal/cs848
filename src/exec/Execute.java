@@ -113,9 +113,6 @@ public class Execute {
 
 				System.out.println(this.scanNFilter(0));
 
-
-				
-
 			}
 			else if(varient.equals("var2")) {
 
