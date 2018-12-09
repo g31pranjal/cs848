@@ -23,36 +23,15 @@ public class GraphBTree extends Graph {
 	}
 
 	public void addVertexProperty(int vid, String key, int val) {
-		// short k = this.keystore.addV(key);
-
-		// int a = this.gtout.searchVertex(vid);
-		// int b = this.gtin.searchVertex(vid);
-		// int c = -1;
-		// if(a != -1) 
-		// 	c = this.gtout.getVPropIndex(a);
-		// else 
-		// 	c = this.gtin.getVPropIndex(b);
-		// int d = this.vPropStore.addProperty(c, k, val);
-		// if(a != -1) 
-		// 	this.gtout.setVPropIndex(a, d);
-		// if(b != -1) 
-		// 	this.gtin.setVPropIndex(b, d);
+		short k = this.keystore.addV(key);
+		LElement e = new LElement(vid, -1, -1, Integer.toString(val));	
+		vPropBTree.insert(k, e);
 	}
 
 	public void addVertexProperty(int vid, String key, String val) {
-		// short k = this.keystore.addV(key);
-		// int a = this.gtout.searchVertex(vid);
-		// int b = this.gtin.searchVertex(vid);
-		// int c = -1;
-		// if(a != -1) 
-		// 	c = this.gtout.getVPropIndex(a);
-		// else 
-		// 	c = this.gtin.getVPropIndex(b);
-		// int d = this.vPropStore.addProperty(c, k, val);
-		// if(a != -1) 
-		// 	this.gtout.setVPropIndex(a, d);
-		// if(b != -1) 
-		// 	this.gtin.setVPropIndex(b, d);
+		short k = this.keystore.addV(key);
+		LElement e = new LElement(vid, -1, -1, val);	
+		vPropBTree.insert(k, e);
 	}
 
 	public void addEdgeProperty(long eid, String key, int val) {

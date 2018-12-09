@@ -27,11 +27,14 @@ public class Execute {
 			return "unknown";
 	}
 
-	public Execute(Graph g, Query q, String varient) {
+	public Execute(Graph g, Query q) {
 		this.q = q;
 		this.g = g;
 		this.plan = getPlan();
-		this.varient = varient;
+		if(g.getClass().getName().equals("store.GraphBTree"))
+			this.varient = "btree";
+		else if(g.getClass().getName().equals("store.GraphVanilla"))
+			this.varient = "vanilla";
 	}
 
 
@@ -41,7 +44,6 @@ public class Execute {
 		for(Result r : lr ) {
 			int src = r.path.get(r.path.size()-1);
 			List<Integer> neigh = this.g.getOutNeighbours(src);
-			// System.out.println(neigh);
 			for(Integer i : neigh) {
 				if(!(r.path.contains(i))) {
 					newr = new Result();
@@ -60,7 +62,6 @@ public class Execute {
 		for(Result r : lr ) {
 			int src = r.path.get(0);
 			List<Integer> neigh = this.g.getInNeighbours(src);
-			// System.out.println(neigh);
 			for(Integer i : neigh) {
 				if(!(r.path.contains(i))) {
 					newr = new Result();
@@ -110,8 +111,6 @@ public class Execute {
 	}
 
 	public void filter(Result r, String opr, String val) {
-		Map<String, String> props = ((GraphVanilla)this.g).retrieveEdgeProperties(r.ePropIndex.get(0));
-		
 		try {
 			int vali = Integer.parseInt(val);
 			try {
@@ -151,6 +150,10 @@ public class Execute {
 		return ret;
 	}
 
+	public List<Result> hashJoin(List<Result> resL, List<Result> resR) {
+		
+	}
+
 	public void getResults() {
 		String plan = this.getPlan();
 		List<Result> res, res1, res2;
@@ -160,23 +163,33 @@ public class Execute {
 				res = this.scanNFilter(0);
 			}
 			else if(varient.equals("btree")) {
-
+				res = ((GraphBTree)this.g).searchByProperty(this.q.wheres.get(0).prop);
+				res1 = new ArrayList<Result>();
+				for(Result r : res) {
+					this.filter(r, this.q.wheres.get(0).opr, this.q.wheres.get(0).val);
+					if(r.valid) {
+						res1.add(r);
+					}
+				}
 			}
 		}
 		else if(plan.equals("plan2")) {
 			if(varient.equals("vanilla")) {
-				System.out.println("p2v1");
 				res = this.scanNFilter(0);
-				System.out.println(res);
 				res = this.extendRight(res);
-				System.out.println(res);
 				res = this.extendRight(res);
-				System.out.println(res);
 			}
 			else if(varient.equals("btree")) {
-				System.out.println("p2bt");
-				res = ((GraphBTree)this.g).searchByProperty(this.q.wheres.get(0).prop);
-				System.out.println(res);
+				res1 = ((GraphBTree)this.g).searchByProperty(this.q.wheres.get(0).prop);
+				res = new ArrayList<Result>();
+				for(Result r : res1) {
+					this.filter(r, this.q.wheres.get(0).opr, this.q.wheres.get(0).val);
+					if(r.valid) {
+						res.add(r);
+					}
+				}
+				res = this.extendRight(res);
+				res = this.extendRight(res);
 			}
 		}
 		else if(plan.equals("plan3")) {
