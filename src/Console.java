@@ -1,6 +1,7 @@
 import exec.Query;
 import exec.Parser;
 import store.Graph;
+import store.GraphVanilla;
 import exec.Execute;
 	
 public class Console {
@@ -17,7 +18,7 @@ public class Console {
 		Query  q = p.parseFromFile("./queries/query2.json");
 
 		// read the dataset
-		Graph g = new Graph();
+		GraphVanilla g = new GraphVanilla();
 		DatasetParser dp = new DatasetParser(g, "./datasets/1/");
 		dp.parse();
 

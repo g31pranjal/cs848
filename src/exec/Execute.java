@@ -1,5 +1,6 @@
 package exec;
 import store.Graph;
+import store.GraphVanilla;
 import store.topology.Result;
 import java.util.Iterator;
 import java.util.Map;
@@ -70,7 +71,7 @@ public class Execute {
 	}
 
 	public void searchEdgeProperties(Result r, String property) {
-		Map<String, String> props = this.g.retrieveEdgeProperties(r.ePropIndex.get(0));
+		Map<String, String> props = ((GraphVanilla)this.g).retrieveEdgeProperties(r.ePropIndex.get(0));
 		if(props.containsKey(property)) {
 			r.key = property;
 			r.val = props.get(property);
@@ -106,7 +107,7 @@ public class Execute {
 	}
 
 	public void filter(Result r, String opr, String val) {
-		Map<String, String> props = this.g.retrieveEdgeProperties(r.ePropIndex.get(0));
+		Map<String, String> props = ((GraphVanilla)this.g).retrieveEdgeProperties(r.ePropIndex.get(0));
 		
 		try {
 			int vali = Integer.parseInt(val);
@@ -133,7 +134,7 @@ public class Execute {
 
 	public List<Result> scanNFilter(int i) {
 		List<Result> ret = new ArrayList<Result>();
-		Iterator<Result> it = this.g.scanByEdges();
+		Iterator<Result> it = ((GraphVanilla)this.g).scanByEdges();
 		while(it.hasNext()) {
 			Result r = it.next();
 			this.searchEdgeProperties(r, this.q.wheres.get(i).prop);

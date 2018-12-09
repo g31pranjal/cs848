@@ -2,13 +2,15 @@ package store.topology;
 import java.util.Comparator;
 
 public class Neighbour {
+	public Integer src;
 	public Integer dst;
 	public Long eid;
 	public Integer eprop;
 	
-	public Neighbour(int a, long b) {
-		this.dst = a;
-		this.eid = b;
+	public Neighbour(int a, int b, long c) {
+		this.src = a;
+		this.dst = b;
+		this.eid = c;
 		this.eprop = 0;
 	}
 
@@ -21,7 +23,8 @@ public class Neighbour {
 	}
 
 	public String toString() {
-		return this.dst.toString()+":"+this.eid.toString()+":"+this.eprop.toString();
+		return this.src.toString()+":"+this.dst.toString()+
+				":"+this.eid.toString()+":"+this.eprop.toString();
 	}
 
 }

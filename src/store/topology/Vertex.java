@@ -19,7 +19,7 @@ class Vertex {
 			if(this.edgelist.get(j).dst == edge)
 				return this.edgelist.get(j);
 		}
-		Neighbour n = new Neighbour(edge, eid);
+		Neighbour n = new Neighbour(this.vid, edge, eid);
 		this.edgelist.add(n);
 		Collections.sort(this.edgelist, new NeighbourCompare());
 		return n;

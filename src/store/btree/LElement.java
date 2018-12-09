@@ -1,6 +1,6 @@
 package store.btree;
 
-class LElement {
+public class LElement {
 
 	public int src;
 	public int dst;
@@ -12,6 +12,15 @@ class LElement {
 		this.dst = dst;
 		this.eid = eid;
 		this.val = val;
+	}
+
+	public String toString() {
+		String a = "";
+		a += "src=" + this.src + ", ";
+		a += "dst=" + this.dst + ", ";
+		a += "eid=" + this.eid + ", ";
+		a += "val=" + this.val + ", ";
+		return a;
 	}
 
 }
