@@ -113,6 +113,7 @@ public class GTopology implements Iterable {
 				r.path.add(v.vid);
 				r.path.add(e.dst);
 				r.edges.add(e.eid);
+				r.ePropIndex.add(e.eprop);
 				r.valid = true;
 				return r;
 			}

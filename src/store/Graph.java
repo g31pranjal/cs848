@@ -11,12 +11,12 @@ import java.util.Iterator;
 
 public class Graph{
 
-	private KeyStore keystore;
+	public KeyStore keystore;
 	private ValueStore valuestore;
 	private GTopology gtout;
 	private GTopology gtin;
-	private PropertyStore vPropStore;
-	private PropertyStore ePropStore;
+	public PropertyStore vPropStore;
+	public PropertyStore ePropStore;
 	private Map<Long, List<Neighbour>> nmap;
 
 	public Graph() {
@@ -121,9 +121,39 @@ public class Graph{
 		return this.gtout.iterator();
 	}
 
-	// public getEProps(int i) {
+	public Map<String, String> retrieveEdgeProperties(int i) {
+		Map<String, String> a = new HashMap<String, String>();
+		while(i != 0) {
+			short k = this.ePropStore.getKeyAt(i);
+			String key = this.keystore.getV(k);
+			String val = "";
+			if(this.ePropStore.getTypeAt(i).equals("num"))
+				val = this.ePropStore.getNumAt(i).toString();
+			else 
+				val = this.ePropStore.getStringAt(i);
 
-	// }
+			a.put(key, val);
+			i = this.ePropStore.getRefAt(i);
+		}
+		return a;
+	}
+
+	public Map<String, String> retrieveVertexProperties(int i) {
+		Map<String, String> a = new HashMap<String, String>();
+		while(i != 0) {
+			short k = this.vPropStore.getKeyAt(i);
+			String key = this.keystore.getV(k);
+			String val = "";
+			if(this.vPropStore.getTypeAt(i).equals("num"))
+				val = this.vPropStore.getNumAt(i).toString();
+			else 
+				val = this.vPropStore.getStringAt(i);
+
+			a.put(key, val);
+			i = this.vPropStore.getRefAt(i);
+		}
+		return a;
+	}
 
 	// public getEProps(int i) {
 

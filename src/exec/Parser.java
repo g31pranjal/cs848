@@ -32,9 +32,17 @@ public class Parser {
 			Iterator<JSONArray> qIterator = q.iterator();
 			while (qIterator.hasNext()) {
 				JSONArray qEnt = qIterator.next();
-				Iterator<String> qEntIterator = qEnt.iterator();
-				qry.addWhere(qEntIterator.next(), qEntIterator.next(), 
-					qEntIterator.next(), qEntIterator.next().toString());
+				Iterator<Object> qEntIterator = qEnt.iterator();
+				String e = (String)qEntIterator.next();
+				String p = (String)qEntIterator.next();
+				String o = (String)qEntIterator.next();
+				Object v = qEntIterator.next();
+				try {
+					qry.addWhere(e, p, o, ((Long)v).toString());
+				} 
+				catch(Exception k) {
+					qry.addWhere(e, p, o, (String)v);
+				}
 			}
 			return qry;
 

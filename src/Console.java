@@ -14,19 +14,18 @@ public class Console {
 		
 		// read the query 
 		Parser p = new Parser();
-		Query  q = p.parseFromFile("./query.json");
+		Query  q = p.parseFromFile("./queries/query1.json");
 
 		// read the dataset
 		Graph g = new Graph();
 		DatasetParser dp = new DatasetParser(g, "./datasets/1/");
 		dp.parse();
 
-		System.out.println(g);
+		// System.out.println(g);
 
 		// execute the query 
-		Execute ex = new Execute(g, q);
-		
-		ex.getPlan();
+		Execute ex = new Execute(g, q);		
+		ex.getResults("var1");
 
 
 	}
