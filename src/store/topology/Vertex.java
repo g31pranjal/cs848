@@ -25,20 +25,20 @@ class Vertex {
 		return n;
 	}
 
-	public Integer[] getNeighbours() {
-		// Integer[] a = this.edgelist.toArray(new Integer[this.edgelist.size()]);
-		Integer[] a = new Integer[this.edgelist.size()];
+	public List<Integer> getNeighbours() {
+		List<Integer> a = new ArrayList<Integer>();
 		for (int i=0; i<this.edgelist.size(); i++) {
-			a[i] = this.edgelist.get(i).dst;
+			a.add(this.edgelist.get(i).dst);
 		}
 		return a;
 	}
 
-	public Long[] getEdges() {
+	public List<Long> getEdges() {
 		// Integer[] a = this.edgelist.toArray(new Integer[this.edgelist.size()]);
-		Long[] a = new Long[this.edgelist.size()];
+		List<Long> a = new ArrayList<Long>();
+		// Long[] a = new Long[this.edgelist.size()];
 		for (int i=0; i<this.edgelist.size(); i++) {
-			a[i] = this.edgelist.get(i).eid;
+			a.add(this.edgelist.get(i).eid);
 		}
 		return a;
 	}

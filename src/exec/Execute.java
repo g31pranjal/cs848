@@ -20,11 +20,53 @@ public class Execute {
 		if(this.q.matches.size() == 1 && this.q.wheres.size() == 1 )
 			return "plan1";
 		else if(this.q.matches.size() == 3 && this.q.wheres.size() == 1 )
-			return "plan3";
+			return "plan2";
 		else if(this.q.matches.size() == 4 && this.q.wheres.size() == 2 )
 			return "plan3";
 		else 
 			return "unknown";
+	}
+
+	// public List<Result> extendLeft(List<Result> lr) {
+
+	// }
+
+	public List<Result> extendRight(List<Result> lr) {
+		List<Result> res = new ArrayList<Result>();
+		Result newr;
+		for(Result r : lr ) {
+			int src = r.path.get(r.path.size()-1);
+			List<Integer> neigh = this.g.getOutNeighbours(src);
+			// System.out.println(neigh);
+			for(Integer i : neigh) {
+				if(!(r.path.contains(i))) {
+					newr = new Result();
+					newr.path = (ArrayList<Integer>)((ArrayList<Integer>)r.path).clone();
+					newr.path.add(i);
+					res.add(newr);
+				}
+			}
+		}
+		return res;
+	}
+
+	public List<Result> extendLeft(List<Result> lr) {
+		List<Result> res = new ArrayList<Result>();
+		Result newr;
+		for(Result r : lr ) {
+			int src = r.path.get(0);
+			List<Integer> neigh = this.g.getInNeighbours(src);
+			// System.out.println(neigh);
+			for(Integer i : neigh) {
+				if(!(r.path.contains(i))) {
+					newr = new Result();
+					newr.path.add(i);
+					newr.path.addAll(r.path);
+					res.add(newr);
+				}
+			}
+		}
+		return res;
 	}
 
 	public void searchEdgeProperties(Result r, String property) {
@@ -107,12 +149,11 @@ public class Execute {
 
 	public void getResults(String varient) {
 		String plan = this.getPlan();
+		List<Result> res;
 
 		if(plan.equals("plan1")) {
 			if(varient.equals("var1")) {
-
-				System.out.println(this.scanNFilter(0));
-
+				res = this.scanNFilter(0);
 			}
 			else if(varient.equals("var2")) {
 
@@ -120,8 +161,13 @@ public class Execute {
 		}
 		else if(plan.equals("plan2")) {
 			if(varient.equals("var1")) {
-				this.scanNFilter(0);
-
+				System.out.println("p2v1");
+				res = this.scanNFilter(0);
+				System.out.println(res);
+				res = this.extendLeft(res);
+				System.out.println(res);
+				res = this.extendLeft(res);
+				System.out.println(res);
 			}
 			else if(varient.equals("var2")) {
 
@@ -131,7 +177,6 @@ public class Execute {
 			if(varient.equals("var1")) {
 				this.scanNFilter(0);
 				this.scanNFilter(1);
-
 			}
 			else if(varient.equals("var2")) {
 

@@ -14,7 +14,7 @@ public class Console {
 		
 		// read the query 
 		Parser p = new Parser();
-		Query  q = p.parseFromFile("./queries/query1.json");
+		Query  q = p.parseFromFile("./queries/query2.json");
 
 		// read the dataset
 		Graph g = new Graph();

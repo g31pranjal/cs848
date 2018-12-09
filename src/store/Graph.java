@@ -36,19 +36,19 @@ public class Graph{
 		nmap.put(eid, c);
 	}
 
-	public Integer[] getOutNeighbours(int a) {
+	public List<Integer> getOutNeighbours(int a) {
 		return this.gtout.getNeighbours(a);
 	}
 
-	public Integer[] getInNeighbours(int a) {
+	public List<Integer> getInNeighbours(int a) {
 		return this.gtin.getNeighbours(a);
 	}
 
-	public Long[] getOutEdges(int a) {
+	public List<Long> getOutEdges(int a) {
 		return this.gtout.getEdges(a);
 	}
 
-	public Long[] getInEdges(int a) {
+	public List<Long> getInEdges(int a) {
 		return this.gtin.getEdges(a);
 	}
 

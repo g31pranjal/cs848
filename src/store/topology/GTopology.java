@@ -42,20 +42,20 @@ public class GTopology implements Iterable {
 		}
 	}
 
-	public Integer[] getNeighbours(int v) {
+	public List<Integer> getNeighbours(int v) {
 		int at = this.searchVertex(v);
 		if(at == -1) {
-			return null;
+			return new ArrayList<Integer>();
 		}
 		else {
 			return this.str.get(at).getNeighbours();
 		}
 	}
 
-	public Long[] getEdges(int v) {
+	public List<Long> getEdges(int v) {
 		int at = this.searchVertex(v);
 		if(at == -1) {
-			return null;
+			return  new ArrayList<Long>();
 		}
 		else {
 			return this.str.get(at).getEdges();
