@@ -24,18 +24,25 @@ public class Console {
 		else
 			g = new GraphVanilla();
 
-		DatasetParser dp = new DatasetParser(g, "./datasets/1/");
+		Instant t1, t2;
+		Duration timeDiff;
+
+		t1 = Instant.now();
+		DatasetParser dp = new DatasetParser(g, "./datasets/dataset-52/");
 		dp.parse();
+		t2 = Instant.now();
+		timeDiff = Duration.between(t1, t2);
+		System.out.println("time: "+ timeDiff.toMillis() +" ms");
 
 		// execute the query
 		System.out.println("execute.");
-		Instant t1 = Instant.now();
+		t1 = Instant.now();	
 		Execute ex = new Execute(g, q);
 		ex.getResults();
-		Instant t2 = Instant.now();
+		t2 = Instant.now();
 
-		Duration timeElapsed = Duration.between(t1, t2);
-		System.out.println("Time taken: "+ timeElapsed.toMillis() +" milliseconds");
+		timeDiff = Duration.between(t1, t2);
+		System.out.println("time: "+ timeDiff.toMillis() +" ms");
 
 
 	}

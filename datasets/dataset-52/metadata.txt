@@ -1,0 +1,72 @@
+
+#VERTICES
+1000
+
+#EDGES
+63004
+
+#UNIQUE VERTEX PROPERTY
+25
+
+#UNIQUE EDGE PROPERTY
+25
+
+#PROPERTIES PER EDGE
+1 - 10
+
+#PROPERTIES PER VERTEX
+2 - 15
+
+#VERTEX PROPERTIES
+ - 'wnur' (int), |val| = 347
+ - 'qvdn' (string)
+ - 'klyr' (string)
+ - 'knlj' (int), |val| = 551
+ - 'anru' (int), |val| = 969
+ - 'ppsk' (int), |val| = 979
+ - 'bksb' (int), |val| = 503
+ - 'mamp' (int), |val| = 880
+ - 'kscw' (int), |val| = 781
+ - 'xtgr' (int), |val| = 835
+ - 'pmat' (string)
+ - 'jiph' (int), |val| = 849
+ - 'pmow' (string)
+ - 'rkaz' (int), |val| = 351
+ - 'viyq' (int), |val| = 134
+ - 'gqju' (string)
+ - 'jdlk' (string)
+ - 'dlvh' (int), |val| = 129
+ - 'ajel' (int), |val| = 872
+ - 'iscf' (int), |val| = 78
+ - 'jdua' (int), |val| = 148
+ - 'tyya' (string)
+ - 'xeot' (int), |val| = 498
+ - 'jezy' (string)
+ - 'uxga' (int), |val| = 821
+
+#EDGE PROPERTIES
+ - 'qaks' (int), |val| = 978
+ - 'xorq' (string)
+ - 'xabc' (int), |val| = 576
+ - 'xymm' (int), |val| = 217
+ - 'ukvj' (string)
+ - 'ljku' (string)
+ - 'jtao' (string)
+ - 'pfly' (int), |val| = 348
+ - 'wgkc' (int), |val| = 97
+ - 'nslt' (int), |val| = 401
+ - 'nmuo' (int), |val| = 981
+ - 'iphq' (int), |val| = 51
+ - 'ttfn' (string)
+ - 'jpvc' (int), |val| = 766
+ - 'uugu' (int), |val| = 346
+ - 'frcm' (int), |val| = 17
+ - 'glvv' (int), |val| = 722
+ - 'rbfg' (string)
+ - 'phcv' (int), |val| = 112
+ - 'gszd' (string)
+ - 'arsh' (int), |val| = 415
+ - 'jzhz' (int), |val| = 578
+ - 'vnri' (int), |val| = 684
+ - 'xrot' (string)
+ - 'mkhx' (int), |val| = 450
