@@ -80,17 +80,19 @@ public class DatasetParser {
 				JSONObject ent = iterator.next();
 				long eid = ((Long)ent.get("eid")).longValue();
 				String key = (String)ent.get("key");
+				Object v = ent.get("val");
 				try {
-					int val = ((Long)ent.get("val")).intValue();
+					int val = ((Long)v).intValue();
 					this.graph.addEdgeProperty(eid, key, val);
 				}
 				catch (Exception e) {
-					String val = (String)ent.get("val");
+					String val = (String)v;
 					this.graph.addEdgeProperty(eid, key, val);
 				}
 			}
 		}
 		catch(Exception e) {
+			System.out.println("here !");
 			e.printStackTrace();
 		}
 

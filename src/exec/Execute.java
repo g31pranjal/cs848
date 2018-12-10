@@ -151,7 +151,7 @@ public class Execute {
 	}
 
 	public List<Result> hashJoin(List<Result> resL, List<Result> resR) {
-		
+		return null;
 	}
 
 	public void getResults() {
