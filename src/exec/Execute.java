@@ -93,6 +93,8 @@ public class Execute {
 			return valr > valq;
 		else if(op.equals("<"))
 			return valr < valq;
+		else if(op.equals("=="))
+			return valr == valq;
 
 		return false;
 	}
@@ -106,6 +108,8 @@ public class Execute {
 			return valr.compareTo(valq) > 0;
 		else if(op.equals("<"))
 			return valr.compareTo(valq) < 0;
+		else if(op.equals("=="))
+			return valr.compareTo(valq) == 0;
 
 		return false;
 	}
@@ -137,16 +141,22 @@ public class Execute {
 	public List<Result> scanNFilter(int i) {
 		List<Result> ret = new ArrayList<Result>();
 		Iterator<Result> it = ((GraphVanilla)this.g).scanByEdges();
+		int itr = 0;
+		int pf = 0;
 		while(it.hasNext()) {
+			itr++;
 			Result r = it.next();
 			this.searchEdgeProperties(r, this.q.wheres.get(i).prop);
 			if(r.valid) {
+				pf++;
 				this.filter(r, this.q.wheres.get(i).opr, this.q.wheres.get(i).val);
 			}
 			if(r.valid) {
 				ret.add(r);
 			}
 		}
+		System.out.println(itr);
+		System.out.println(pf);
 		return ret;
 	}
 
@@ -161,9 +171,11 @@ public class Execute {
 		if(plan.equals("plan1")) {
 			if(varient.equals("vanilla")) {
 				res = this.scanNFilter(0);
+				System.out.println(res.size());
 			}
 			else if(varient.equals("btree")) {
 				res = ((GraphBTree)this.g).searchByProperty(this.q.wheres.get(0).prop);
+				System.out.println(res.size());
 				res1 = new ArrayList<Result>();
 				for(Result r : res) {
 					this.filter(r, this.q.wheres.get(0).opr, this.q.wheres.get(0).val);
@@ -171,13 +183,17 @@ public class Execute {
 						res1.add(r);
 					}
 				}
+				System.out.println(res1.size());
 			}
 		}
 		else if(plan.equals("plan2")) {
 			if(varient.equals("vanilla")) {
 				res = this.scanNFilter(0);
+				System.out.println(res.size());
 				res = this.extendRight(res);
+				System.out.println(res.size());
 				res = this.extendRight(res);
+				System.out.println(res.size());
 			}
 			else if(varient.equals("btree")) {
 				res1 = ((GraphBTree)this.g).searchByProperty(this.q.wheres.get(0).prop);
