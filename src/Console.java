@@ -13,7 +13,7 @@ public class Console {
 		
 		// read the query 
 		Parser p = new Parser();
-		Query  q = p.parseFromFile("./queries/query1.json");
+		Query  q = p.parseFromFile("./queries/query3.json");
 		Graph g;
 
 		// read the dataset
@@ -24,7 +24,7 @@ public class Console {
 		else
 			g = new GraphVanilla();
 
-		DatasetParser dp = new DatasetParser(g, "./datasets/dataset-52/");
+		DatasetParser dp = new DatasetParser(g, "./datasets/1/");
 		dp.parse();
 
 		// execute the query
