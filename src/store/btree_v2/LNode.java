@@ -2,45 +2,73 @@ package store.btree_v2;
 import java.util.List;
 import java.util.ArrayList;
 
-class LNode<tKey extends Comparable<tKey>, tValue> extends Node<tKey> {
+class LNode extends Node {
 	protected final static int LEAFORDER = 32;
-	private Object[] values;
+	private LElement[] values;
 	
 	public LNode() {
-		this.keys = new Object[LEAFORDER + 1];
-		this.values = new Object[LEAFORDER + 1];
+		this.keys = new CompoundKey[LEAFORDER + 1];
+		this.values = new LElement[LEAFORDER + 1];
 	}
 
 	@SuppressWarnings("unchecked")
-	public tValue getValue(int index) {
-		return (tValue)this.values[index];
+	public LElement getValue(int index) {
+		return this.values[index];
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<tValue> getValues(tKey key, int index, int direction) {
-		List<tValue> ret = new ArrayList<tValue>();
-		List<tValue> l = new ArrayList<tValue>();
-		// List<tValue> r = new ArrayList<tValue>();
-		while(index < this.getKeyCount() && 
-			((CompoundKey)this.keys[index]).compareTo((CompoundKey)key) == 0 ) {
-			ret.add((tValue)this.values[index]);
-			index++;
-		}
+	public List<LElement> getValues(CompoundKey leftbound, String opr,
+									 CompoundKey key, int index, int direction) {
+		
+		List<LElement> ret = new ArrayList<LElement>();
+		List<LElement> l = new ArrayList<LElement>();
+
+		if(opr.equals(">="))
+			while(index < this.getKeyCount() && 
+					this.keys[index].compareTo(key) >= 0 )  {
+				ret.add(this.values[index]);
+				index++;
+			}
+		else if(opr.equals(">"))
+			while(index < this.getKeyCount() && 
+					this.keys[index].compareTo(key) > 0 )  {
+				ret.add(this.values[index]);
+				index++;
+			}
+		else if(opr.equals("=="))
+			while(index < this.getKeyCount() && 
+					this.keys[index].compareTo(key) == 0 )  {
+				ret.add(this.values[index]);
+				index++;
+			}
+		else if(opr.equals("<"))
+			while(index < this.getKeyCount() && 
+					this.keys[index].compareTo(key) < 0 )  {
+				ret.add(this.values[index]);
+				index++;
+			}
+		else if(opr.equals("<="))
+			while(index < this.getKeyCount() && 
+					this.keys[index].compareTo(key) <= 0 )  {
+				ret.add(this.values[index]);
+				index++;
+			}
+		
 		if(this.leftSibling != null && direction <= 0) {
-			int i = this.leftSibling.search(key);
+			int i = this.leftSibling.search(leftbound);
 			if(i != -1) 
-				l.addAll(((LNode<tKey, tValue>)this.leftSibling).getValues(key, i, -1));
+				l.addAll(((LNode)this.leftSibling).getValues(leftbound, opr, key, i, -1));
 		}
 		l.addAll(ret);
 		if(this.rightSibling != null && direction >= 0) {
-			int i = this.rightSibling.search(key);
+			int i = this.rightSibling.search(leftbound);
 			if(i != -1) 
-				l.addAll(((LNode<tKey, tValue>)this.rightSibling).getValues(key, i, 1));
+				l.addAll(((LNode)this.rightSibling).getValues(leftbound, opr, key, i, 1));
 		}
 		return l;
 	}
 
-	public void setValue(int index, tValue value) {
+	public void setValue(int index, LElement value) {
 		this.values[index] = value;
 	}
 
@@ -50,7 +78,7 @@ class LNode<tKey extends Comparable<tKey>, tValue> extends Node<tKey> {
 	}
 
 	@Override
-	public int search(tKey key) {
+	public int search(CompoundKey key) {
 		for (int i = 0; i < this.getKeyCount(); ++i) {
 			 int cmp = this.getKey(i).compareTo(key);
 			 if (cmp == 0) {
@@ -64,14 +92,14 @@ class LNode<tKey extends Comparable<tKey>, tValue> extends Node<tKey> {
 	}
 
 	@Override
-	public Node<tKey> dealOverflow() {
+	public Node dealOverflow() {
 		int midIndex = this.getKeyCount() / 2;
-		tKey upKey = this.getKey(midIndex);
+		CompoundKey upKey = this.getKey(midIndex);
 
-		Node<tKey> newRNode = this.split();
+		Node newRNode = this.split();
 
 		if (this.getParent() == null) {
-			this.setParent(new INode<tKey>());
+			this.setParent(new INode());
 		}
 		newRNode.setParent(this.getParent());
 		
@@ -87,14 +115,14 @@ class LNode<tKey extends Comparable<tKey>, tValue> extends Node<tKey> {
 	
 	/* The codes below are used to support insertion operation */
 	
-	public void insertKey(tKey key, tValue value) {
+	public void insertKey(CompoundKey key, LElement value) {
 		int index = 0;
 		while (index < this.getKeyCount() && this.getKey(index).compareTo(key) < 0)
 			++index;
 		this.insertAt(index, key, value);
 	}
 	
-	private void insertAt(int index, tKey key, tValue value) {
+	private void insertAt(int index, CompoundKey key, LElement value) {
 		// move space for the new key
 		for (int i = this.getKeyCount() - 1; i >= index; --i) {
 			this.setKey(i + 1, this.getKey(i));
@@ -112,10 +140,10 @@ class LNode<tKey extends Comparable<tKey>, tValue> extends Node<tKey> {
 	 * When splits a leaf node, the middle key is kept on new node and be pushed to parent node.
 	 */
 	@Override
-	protected Node<tKey> split() {
+	protected Node split() {
 		int midIndex = this.getKeyCount() / 2;
 		
-		LNode<tKey, tValue> newRNode = new LNode<tKey, tValue>();
+		LNode newRNode = new LNode();
 		for (int i = midIndex; i < this.getKeyCount(); ++i) {
 			newRNode.setKey(i - midIndex, this.getKey(i));
 			newRNode.setValue(i - midIndex, this.getValue(i));
@@ -129,73 +157,9 @@ class LNode<tKey extends Comparable<tKey>, tValue> extends Node<tKey> {
 	}
 	
 	@Override
-	protected Node<tKey> pushUpKey(tKey key, Node<tKey> leftChild, Node<tKey> rightNode) {
+	protected Node pushUpKey(CompoundKey key, Node leftChild, Node rightNode) {
 		throw new UnsupportedOperationException();
 	}
 	
-	
-	
-	
-	/* The codes below are used to support deletion operation */
-	
-	// public boolean delete(tKey key) {
-	// 	int index = this.search(key);
-	// 	if (index == -1)
-	// 		return false;
-		
-	// 	this.deleteAt(index);
-	// 	return true;
-	// }
-	
-	// private void deleteAt(int index) {
-	// 	int i = index;
-	// 	for (i = index; i < this.getKeyCount() - 1; ++i) {
-	// 		this.setKey(i, this.getKey(i + 1));
-	// 		this.setValue(i, this.getValue(i + 1));
-	// 	}
-	// 	this.setKey(i, null);
-	// 	this.setValue(i, null);
-	// 	--this.keyCount;
-	// }
-	
-	// @Override
-	// protected void processChildrenTransfer(Node<tKey> borrower, Node<tKey> lender, int borrowIndex) {
-	// 	throw new UnsupportedOperationException();
-	// }
-	
-	// @Override
-	// protected Node<tKey> processChildrenFusion(Node<tKey> leftChild, Node<tKey> rightChild) {
-	// 	throw new UnsupportedOperationException();
-	// }
-	
-	// /**
-	//  * Notice that the key sunk from parent is be abandoned. 
-	//  */
-	// @Override
-	// @SuppressWarnings("unchecked")
-	// protected void fusionWithSibling(tKey sinkKey, Node<tKey> rightSibling) {
-	// 	LNode<tKey, tValue> siblingLeaf = (LNode<tKey, tValue>)rightSibling;
-		
-	// 	int j = this.getKeyCount();
-	// 	for (int i = 0; i < siblingLeaf.getKeyCount(); ++i) {
-	// 		this.setKey(j + i, siblingLeaf.getKey(i));
-	// 		this.setValue(j + i, siblingLeaf.getValue(i));
-	// 	}
-	// 	this.keyCount += siblingLeaf.getKeyCount();
-		
-	// 	this.setRightSibling(siblingLeaf.rightSibling);
-	// 	if (siblingLeaf.rightSibling != null)
-	// 		siblingLeaf.rightSibling.setLeftSibling(this);
-	// }
-	
-	// @Override
-	// @SuppressWarnings("unchecked")
-	// protected tKey transferFromSibling(tKey sinkKey, Node<tKey> sibling, int borrowIndex) {
-	// 	LNode<tKey, tValue> siblingNode = (LNode<tKey, tValue>)sibling;
-		
-	// 	this.insertKey(siblingNode.getKey(borrowIndex), siblingNode.getValue(borrowIndex));
-	// 	siblingNode.deleteAt(borrowIndex);
-		
-	// 	return borrowIndex == 0 ? sibling.getKey(0) : this.getKey(0);
-	// }
+
 }
