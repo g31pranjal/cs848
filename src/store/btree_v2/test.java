@@ -12,6 +12,6 @@ class test {
 		t.insert(new CompoundKey((short)2, "e"), new LElement(-1, -1, 0, "2e") );
 
 		System.out.println(t.rangeSearch( new CompoundKey((short)2, "c"), "<" ));
-		
+
 	}
 }

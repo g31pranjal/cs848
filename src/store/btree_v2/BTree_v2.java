@@ -26,7 +26,7 @@ public class BTree_v2 {
 
 
 	//searching the range based on the operator
-	public List rangeSearch(CompoundKey key, String opr) {
+	public List rangeSearchByProperty(CompoundKey key, String opr) {
 
 		CompoundKey t = null;
 		if(opr.equals("<="))

@@ -16,7 +16,7 @@ all:
 	$(JC) $(JFLAGS) src/store/btree_v2/INode.java
 	$(JC) $(JFLAGS) src/store/btree_v2/LNode.java
 	$(JC) $(JFLAGS) src/store/btree_v2/BTree_v2.java
-	$(JC) $(JFLAGS) src/store/btree_v2/test.java
+	# $(JC) $(JFLAGS) src/store/btree_v2/test.java
 	
 	$(JC) $(JFLAGS) src/store/topology/Result.java
 	$(JC) $(JFLAGS) src/store/topology/Neighbour.java

@@ -2,6 +2,7 @@ package exec;
 import store.Graph;
 import store.GraphVanilla;
 import store.GraphBTree;
+import store.GraphBTree_v2;
 import store.topology.Result;
 import java.util.Iterator;
 import java.util.Map;
@@ -37,6 +38,8 @@ public class Execute {
 			this.varient = "btree";
 		else if(g.getClass().getName().equals("store.GraphVanilla"))
 			this.varient = "vanilla";
+		else if(g.getClass().getName().equals("store.GraphBTree_v2"))
+			this.varient = "btree_v2";
 		this.count = 0;
 	}
 
@@ -196,12 +199,6 @@ public class Execute {
 				}
 			}
 		}
-
-		// System.out.println(mapping);
-
-		// System.out.println(resL);
-		// System.out.println(resR);
-		// System.out.println(ret);
 		return ret;
 	}
 
@@ -211,28 +208,39 @@ public class Execute {
 
 		if(plan.equals("plan1")) {
 			if(varient.equals("vanilla")) {
+				System.out.println("p1v");
 				res = this.scanNFilter(0);
-				System.out.println(res.size());
+				System.out.println("result cardinality: " + res.size());
 			}
 			else if(varient.equals("btree")) {
-				res = ((GraphBTree)this.g).searchByProperty(this.q.wheres.get(0).prop);
-				res1 = new ArrayList<Result>();
-				for(Result r : res) {
+				System.out.println("p1b");
+				res1 = ((GraphBTree)this.g).searchByProperty(this.q.wheres.get(0).prop);
+				res = new ArrayList<Result>();
+				for(Result r : res1) {
 					this.filter(r, this.q.wheres.get(0).opr, this.q.wheres.get(0).val);
 					if(r.valid) {
-						res1.add(r);
+						res.add(r);
 					}
 				}
-				System.out.println(res1.size());
+				System.out.println("result cardinality: " + res.size());
+			}
+			else if(varient.equals("btree_v2")) { 
+				System.out.println("p1c");
+				res = ((GraphBTree_v2)this.g).rangeSearchByProperty(this.q.wheres.get(0).prop, 
+									this.q.wheres.get(0).val, this.q.wheres.get(0).opr);
+				System.out.println("result cardinality: " + res.size());
 			}
 		}
 		else if(plan.equals("plan2")) {
 			if(varient.equals("vanilla")) {
+				System.out.println("p2v");
 				res = this.scanNFilter(0);
 				res = this.extendRight(res);
 				res = this.extendRight(res);
+				System.out.println("result cardinality: " + res.size());
 			}
 			else if(varient.equals("btree")) {
+				System.out.println("p2b");
 				res1 = ((GraphBTree)this.g).searchByProperty(this.q.wheres.get(0).prop);
 				res = new ArrayList<Result>();
 				for(Result r : res1) {
@@ -243,6 +251,15 @@ public class Execute {
 				}
 				res = this.extendRight(res);
 				res = this.extendRight(res);
+				System.out.println("result cardinality: " + res.size());
+			}
+			else if(varient.equals("btree_v2")) {
+				System.out.println("p2c");
+				res = ((GraphBTree_v2)this.g).rangeSearchByProperty(this.q.wheres.get(0).prop, 
+									this.q.wheres.get(0).val, this.q.wheres.get(0).opr);
+				res = this.extendRight(res);
+				res = this.extendRight(res);
+				System.out.println("result cardinality: " + res.size());
 			}
 		}
 		else if(plan.equals("plan3")) {
@@ -250,12 +267,10 @@ public class Execute {
 				System.out.println("p3v");
 				res1 = this.scanNFilter(0);
 				res1 = this.extendLeft(res1);
-				System.out.println(res1.size());
 				res2 = this.scanNFilter(1);
 				res2 = this.extendLeft(res2);
-				System.out.println(res2.size());
-				res  = this.hashJoin(res1, res2);
-				System.out.println(res.size());
+				res = this.hashJoin(res1, res2);
+				System.out.println("result cardinality: " + res.size());
 			}
 			else if(varient.equals("btree")) {
 				System.out.println("p3b");
@@ -268,7 +283,6 @@ public class Execute {
 					}
 				}
 				res = this.extendLeft(res);
-				System.out.println(res.size());
 				res2 = ((GraphBTree)this.g).searchByProperty(this.q.wheres.get(1).prop);
 				res3 = new ArrayList<Result>();
 				for(Result r : res2) {
@@ -278,9 +292,17 @@ public class Execute {
 					}
 				}
 				res3 = this.extendLeft(res3);
-				System.out.println(res3.size());
 				res2  = this.hashJoin(res, res3);
-				System.out.println(res2.size());
+				System.out.println("result cardinality: " + res2.size());
+			}
+			else if(varient.equals("btree_v2")) {
+				System.out.println("p3c");
+				res = ((GraphBTree_v2)this.g).rangeSearchByProperty(this.q.wheres.get(0).prop, 
+									this.q.wheres.get(0).val, this.q.wheres.get(0).opr);	
+				res1 = ((GraphBTree_v2)this.g).rangeSearchByProperty(this.q.wheres.get(1).prop, 
+									this.q.wheres.get(1).val, this.q.wheres.get(1).opr);	
+				res2  = this.hashJoin(res, res1);
+				System.out.println("result cardinality: " + res2.size());
 			}
 		}
 		else {
