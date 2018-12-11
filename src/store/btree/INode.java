@@ -1,20 +1,20 @@
 package store.btree;
 
-class INode<tKey extends Comparable<tKey>> extends Node<tKey> {
-	protected final static int INNERORDER = 4;
+class INode extends Node {
+	protected final static int INNERORDER = 32;
 	protected Object[] children; 
 	
 	public INode() {
-		this.keys = new Object[INNERORDER + 1];
+		this.keys = new Short[INNERORDER + 1];
 		this.children = new Object[INNERORDER + 2];
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Node<tKey> getChild(int index) {
-		return (Node<tKey>)this.children[index];
+	public Node getChild(int index) {
+		return (Node)this.children[index];
 	}
 
-	public void setChild(int index, Node<tKey> child) {
+	public void setChild(int index, Node child) {
 		this.children[index] = child;
 		if (child != null)
 			child.setParent(this);
@@ -26,7 +26,7 @@ class INode<tKey extends Comparable<tKey>> extends Node<tKey> {
 	}
 	
 	@Override
-	public int search(tKey key) {
+	public int search(Short key) {
 		int index = 0;
 		for (index = 0; index < this.getKeyCount(); ++index) {
 			int cmp = this.getKey(index).compareTo(key);
@@ -41,14 +41,14 @@ class INode<tKey extends Comparable<tKey>> extends Node<tKey> {
 	}
 
 	@Override
-	public Node<tKey> dealOverflow() {
+	public Node dealOverflow() {
 		int midIndex = this.getKeyCount() / 2;
-		tKey upKey = this.getKey(midIndex);
+		Short upKey = this.getKey(midIndex);
 
-		Node<tKey> newRNode = this.split();
+		Node newRNode = this.split();
 
 		if (this.getParent() == null) {
-			this.setParent(new INode<tKey>());
+			this.setParent(new INode());
 		}
 		newRNode.setParent(this.getParent());
 		
@@ -64,7 +64,7 @@ class INode<tKey extends Comparable<tKey>> extends Node<tKey> {
 	
 	/* The codes below are used to support insertion operation */
 	
-	private void insertAt(int index, tKey key, Node<tKey> leftChild, Node<tKey> rightChild) {
+	private void insertAt(int index, Short key, Node leftChild, Node rightChild) {
 		// move space for the new key
 		for (int i = this.getKeyCount() + 1; i > index; --i) {
 			this.setChild(i, this.getChild(i - 1));
@@ -84,10 +84,10 @@ class INode<tKey extends Comparable<tKey>> extends Node<tKey> {
 	 * When splits a internal node, the middle key is kicked out and be pushed to parent node.
 	 */
 	@Override
-	protected Node<tKey> split() {
+	protected Node split() {
 		int midIndex = this.getKeyCount() / 2;
-		
-		INode<tKey> newRNode = new INode<tKey>();
+
+		INode newRNode = new INode();
 		for (int i = midIndex + 1; i < this.getKeyCount(); ++i) {
 			newRNode.setKey(i - midIndex - 1, this.getKey(i));
 			this.setKey(i, null);
@@ -105,7 +105,7 @@ class INode<tKey extends Comparable<tKey>> extends Node<tKey> {
 	}
 	
 	@Override
-	protected Node<tKey> pushUpKey(tKey key, Node<tKey> leftChild, Node<tKey> rightNode) {
+	protected Node pushUpKey(Short key, Node leftChild, Node rightNode) {
 		// find the target position of the new key
 		int index = this.search(key);
 		
@@ -120,119 +120,4 @@ class INode<tKey extends Comparable<tKey>> extends Node<tKey> {
 			return this.getParent() == null ? this : null;
 		}
 	}
-
-	
-	
-	
-	
-	
-	/* The codes below are used to support delete operation */
-	
-	// private void deleteAt(int index) {
-	// 	int i = 0;
-	// 	for (i = index; i < this.getKeyCount() - 1; ++i) {
-	// 		this.setKey(i, this.getKey(i + 1));
-	// 		this.setChild(i + 1, this.getChild(i + 2));
-	// 	}
-	// 	this.setKey(i, null);
-	// 	this.setChild(i + 1, null);
-	// 	--this.keyCount;
-	// }
-	
-	
-	// @Override
-	// protected void processChildrenTransfer(Node<tKey> borrower, Node<tKey> lender, int borrowIndex) {
-	// 	int borrowerChildIndex = 0;
-	// 	while (borrowerChildIndex < this.getKeyCount() + 1 && this.getChild(borrowerChildIndex) != borrower)
-	// 		++borrowerChildIndex;
-		
-	// 	if (borrowIndex == 0) {
-	// 		// borrow a key from right sibling
-	// 		tKey upKey = borrower.transferFromSibling(this.getKey(borrowerChildIndex), lender, borrowIndex);
-	// 		this.setKey(borrowerChildIndex, upKey);
-	// 	}
-	// 	else {
-	// 		// borrow a key from left sibling
-	// 		tKey upKey = borrower.transferFromSibling(this.getKey(borrowerChildIndex - 1), lender, borrowIndex);
-	// 		this.setKey(borrowerChildIndex - 1, upKey);
-	// 	}
-	// }
-	
-	// @Override
-	// protected Node<tKey> processChildrenFusion(Node<tKey> leftChild, Node<tKey> rightChild) {
-	// 	int index = 0;
-	// 	while (index < this.getKeyCount() && this.getChild(index) != leftChild)
-	// 		++index;
-	// 	tKey sinkKey = this.getKey(index);
-		
-	// 	// merge two children and the sink key into the left child node
-	// 	leftChild.fusionWithSibling(sinkKey, rightChild);
-		
-	// 	// remove the sink key, keep the left child and abandon the right child
-	// 	this.deleteAt(index);
-		
-	// 	// check whether need to propagate borrow or fusion to parent
-	// 	if (this.isUnderflow()) {
-	// 		if (this.getParent() == null) {
-	// 			// current node is root, only remove keys or delete the whole root node
-	// 			if (this.getKeyCount() == 0) {
-	// 				leftChild.setParent(null);
-	// 				return leftChild;
-	// 			}
-	// 			else {
-	// 				return null;
-	// 			}
-	// 		}
-			
-	// 		return this.dealUnderflow();
-	// 	}
-		
-	// 	return null;
-	// }
-	
-	
-	// @Override
-	// protected void fusionWithSibling(tKey sinkKey, Node<tKey> rightSibling) {
-	// 	INode<tKey> rightSiblingNode = (INode<tKey>)rightSibling;
-		
-	// 	int j = this.getKeyCount();
-	// 	this.setKey(j++, sinkKey);
-		
-	// 	for (int i = 0; i < rightSiblingNode.getKeyCount(); ++i) {
-	// 		this.setKey(j + i, rightSiblingNode.getKey(i));
-	// 	}
-	// 	for (int i = 0; i < rightSiblingNode.getKeyCount() + 1; ++i) {
-	// 		this.setChild(j + i, rightSiblingNode.getChild(i));
-	// 	}
-	// 	this.keyCount += 1 + rightSiblingNode.getKeyCount();
-		
-	// 	this.setRightSibling(rightSiblingNode.rightSibling);
-	// 	if (rightSiblingNode.rightSibling != null)
-	// 		rightSiblingNode.rightSibling.setLeftSibling(this);
-	// }
-	
-	// @Override
-	// protected tKey transferFromSibling(tKey sinkKey, Node<tKey> sibling, int borrowIndex) {
-	// 	INode<tKey> siblingNode = (INode<tKey>)sibling;
-		
-	// 	tKey upKey = null;
-	// 	if (borrowIndex == 0) {
-	// 		// borrow the first key from right sibling, append it to tail
-	// 		int index = this.getKeyCount();
-	// 		this.setKey(index, sinkKey);
-	// 		this.setChild(index + 1, siblingNode.getChild(borrowIndex));			
-	// 		this.keyCount += 1;
-			
-	// 		upKey = siblingNode.getKey(0);
-	// 		siblingNode.deleteAt(borrowIndex);
-	// 	}
-	// 	else {
-	// 		// borrow the last key from left sibling, insert it to head
-	// 		this.insertAt(0, sinkKey, siblingNode.getChild(borrowIndex + 1), this.getChild(0));
-	// 		upKey = siblingNode.getKey(borrowIndex);
-	// 		siblingNode.deleteAt(borrowIndex);
-	// 	}
-		
-	// 	return upKey;
-	// }
 }

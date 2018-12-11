@@ -13,13 +13,13 @@ import store.btree.LElement;
 
 public class GraphBTree extends Graph {
 
-	public BTree<Short, LElement> ePropBTree;
-	public BTree<Short, LElement> vPropBTree;
+	public BTree ePropBTree;
+	public BTree vPropBTree;
 
 	public GraphBTree() {
 		super();
-		this.ePropBTree = new BTree<Short, LElement>();
-		this.vPropBTree = new BTree<Short, LElement>();
+		this.ePropBTree = new BTree();
+		this.vPropBTree = new BTree();
 	}
 
 	public void addVertexProperty(int vid, String key, int val) {

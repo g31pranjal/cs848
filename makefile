@@ -2,13 +2,21 @@ JC = javac
 JFLAGS = -d build/ -classpath build/
 
 all:
-	rm -rf build/exec/
-	rm -rf build/store/
+	# rm -rf build/exec/
+	# rm -rf build/store/
 	$(JC) $(JFLAGS) src/store/btree/LElement.java
 	$(JC) $(JFLAGS) src/store/btree/Node.java
 	$(JC) $(JFLAGS) src/store/btree/INode.java
 	$(JC) $(JFLAGS) src/store/btree/LNode.java
 	$(JC) $(JFLAGS) src/store/btree/BTree.java
+
+	$(JC) $(JFLAGS) src/store/btree_v2/LElement.java
+	$(JC) $(JFLAGS) src/store/btree_v2/CompoundKey.java
+	$(JC) $(JFLAGS) src/store/btree_v2/Node.java
+	$(JC) $(JFLAGS) src/store/btree_v2/INode.java
+	$(JC) $(JFLAGS) src/store/btree_v2/LNode.java
+	$(JC) $(JFLAGS) src/store/btree_v2/BTree_v2.java
+	$(JC) $(JFLAGS) src/store/btree_v2/test.java
 	
 	$(JC) $(JFLAGS) src/store/topology/Result.java
 	$(JC) $(JFLAGS) src/store/topology/Neighbour.java
@@ -21,6 +29,7 @@ all:
 	$(JC) $(JFLAGS) src/store/Graph.java
 	$(JC) $(JFLAGS) src/store/GraphVanilla.java
 	$(JC) $(JFLAGS) src/store/GraphBTree.java
+	$(JC) $(JFLAGS) src/store/GraphBTree_v2.java
 	
 	$(JC) $(JFLAGS) src/exec/Query.java
 	$(JC) $(JFLAGS) src/exec/Parser.java

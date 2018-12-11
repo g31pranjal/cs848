@@ -12,11 +12,13 @@ public class GraphVanilla extends Graph{
 
 	public PropertyStore vPropStore;
 	public PropertyStore ePropStore;
+	public Integer count;
 
 	public GraphVanilla() {
 		super();
 		this.vPropStore = new PropertyStore();
 		this.ePropStore = new PropertyStore();
+		this.count = 0;
 	}
 
 	public void addVertexProperty(int vid, String key, int val) {
@@ -61,7 +63,7 @@ public class GraphVanilla extends Graph{
 		int d = this.ePropStore.addProperty(b, k, val);
 
 		a.get(0).setPropIndex(d);
-		a.get(1).setPropIndex(d);		
+		a.get(1).setPropIndex(d);
 	}
 
 	public void addEdgeProperty(long eid, String key, String val) {
@@ -104,7 +106,9 @@ public class GraphVanilla extends Graph{
 
 			a.put(key, val);
 			i = this.ePropStore.getRefAt(i);
+			count++;
 		}
+		// System.out.println(" - " + count);
 		return a;
 	}
 

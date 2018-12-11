@@ -64,8 +64,12 @@ if __name__ == "__main__" :
 
 	for i in range(1, GLOBAL_E) :
 		nprops = EPROP_MIN + int(random.random()*(EPROP_MAX - EPROP_MIN))
+		prevprops = set();
 		for j in range(0, nprops) :
 			propIndex = int(random.random()*len(ePropKeys))
+			while(propIndex in prevprops) :
+				propIndex = int(random.random()*len(ePropKeys))
+			prevprops.add(propIndex)
 			key = ePropKeys[propIndex]
 			typ = ePropKeysType[propIndex]
 			if typ == 0 :
@@ -104,8 +108,12 @@ if __name__ == "__main__" :
 
 	for i in range(1, VERTICES + 1) :
 		nprops = VPROP_MIN + int(random.random()*(VPROP_MAX - VPROP_MIN))
+		prevprops = set();
 		for j in range(0, nprops) :
 			propIndex = int(random.random()*len(vPropKeys))
+			while(propIndex in prevprops) :
+				propIndex = int(random.random()*len(vPropKeys))
+			prevprops.add(propIndex)
 			key = vPropKeys[propIndex]
 			typ = vPropKeysType[propIndex]
 			if typ == 0 :

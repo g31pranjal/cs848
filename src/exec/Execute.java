@@ -16,6 +16,7 @@ public class Execute {
 	private String plan;
 	// - vanilla, btree
 	private String varient;
+	public Integer count;
 
 	public String getPlan() {
 		if(this.q.matches.size() == 1 && this.q.wheres.size() == 1 )
@@ -36,6 +37,7 @@ public class Execute {
 			this.varient = "btree";
 		else if(g.getClass().getName().equals("store.GraphVanilla"))
 			this.varient = "vanilla";
+		this.count = 0;
 	}
 
 
@@ -77,27 +79,14 @@ public class Execute {
 
 	public void searchEdgeProperties(Result r, String property) {
 		Map<String, String> props = ((GraphVanilla)this.g).retrieveEdgeProperties(r.ePropIndex.get(0));
+		count += props.size();
+		// System.out.println(count);
 		if(props.containsKey(property)) {
 			r.key = property;
 			r.val = props.get(property);
 		}
 		else 
 			r.valid = false;
-	}
-
-	public boolean comparision(int valr, int valq, String op) {
-		if(op.equals("<="))
-			return valr <= valq;
-		else if(op.equals(">="))
-			return valr >= valq;
-		else if(op.equals(">"))
-			return valr > valq;
-		else if(op.equals("<"))
-			return valr < valq;
-		else if(op.equals("=="))
-			return valr == valq;
-
-		return false;
 	}
 
 	public boolean comparision(String valr, String valq, String op) {
@@ -115,12 +104,27 @@ public class Execute {
 		return false;
 	}
 
+	public boolean comparision(Integer valr, Integer valq, String op) {
+		if(op.equals("<="))
+			return valr.compareTo(valq) <= 0;
+		else if(op.equals(">="))
+			return valr.compareTo(valq) >= 0;
+		else if(op.equals(">"))
+			return valr.compareTo(valq) > 0;
+		else if(op.equals("<"))
+			return valr.compareTo(valq) < 0;
+		else if(op.equals("=="))
+			return valr.compareTo(valq) == 0;
+
+		return false;
+	}
+
 	public void filter(Result r, String opr, String val) {
 		try {
-			int vali = Integer.parseInt(val);
+			Integer vali = new Integer(val);
 			try {
-				int valr = Integer.parseInt(r.val);
-				int valq = vali;
+				Integer valr = new Integer(r.val);
+				Integer valq = vali;
 				if(!this.comparision(valr, valq, opr))
 					r.valid = false;
 			}
@@ -142,16 +146,19 @@ public class Execute {
 	public List<Result> scanNFilter(int i) {
 		List<Result> ret = new ArrayList<Result>();
 		Iterator<Result> it = ((GraphVanilla)this.g).scanByEdges();
+		int a = 0;
 		while(it.hasNext()) {
 			Result r = it.next();
 			this.searchEdgeProperties(r, this.q.wheres.get(i).prop);
 			if(r.valid) {
+				a++;
 				this.filter(r, this.q.wheres.get(i).opr, this.q.wheres.get(i).val);
 			}
 			if(r.valid) {
 				ret.add(r);
 			}
 		}
+		System.out.println(a);
 		return ret;
 	}
 
@@ -205,6 +212,7 @@ public class Execute {
 		if(plan.equals("plan1")) {
 			if(varient.equals("vanilla")) {
 				res = this.scanNFilter(0);
+				System.out.println(res.size());
 			}
 			else if(varient.equals("btree")) {
 				res = ((GraphBTree)this.g).searchByProperty(this.q.wheres.get(0).prop);
@@ -215,6 +223,7 @@ public class Execute {
 						res1.add(r);
 					}
 				}
+				System.out.println(res1.size());
 			}
 		}
 		else if(plan.equals("plan2")) {

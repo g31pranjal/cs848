@@ -69,6 +69,7 @@ public class DatasetParser {
 		}
 
 		System.out.println("reading edge properties ...");
+		Integer ins = 0;
 		try {
 			Object obj = this.parser.parse(new FileReader(this.eProperties_path));
 			JSONObject jsonObject = (JSONObject) obj;
@@ -84,17 +85,19 @@ public class DatasetParser {
 				try {
 					int val = ((Long)v).intValue();
 					this.graph.addEdgeProperty(eid, key, val);
+					ins++;
 				}
 				catch (Exception e) {
 					String val = (String)v;
 					this.graph.addEdgeProperty(eid, key, val);
+					ins++;
 				}
 			}
 		}
 		catch(Exception e) {
-			System.out.println("here !");
 			e.printStackTrace();
 		}
+		System.out.println(ins);
 
 
 
