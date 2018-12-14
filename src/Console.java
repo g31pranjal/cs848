@@ -14,7 +14,7 @@ public class Console {
 		
 		// read the query 
 		Parser p = new Parser();
-		Query  q = p.parseFromFile("./queries/query1.json");
+		Query  q = p.parseFromFile("./queries/query3.json");
 		Graph g;
 
 		// read the dataset
@@ -31,7 +31,7 @@ public class Console {
 		Duration timeDiff;
 
 		t1 = Instant.now();
-		DatasetParser dp = new DatasetParser(g, "./datasets/dataset-72/");
+		DatasetParser dp = new DatasetParser(g, "./datasets/dataset-90/");
 		dp.parse();
 		t2 = Instant.now();
 		timeDiff = Duration.between(t1, t2);

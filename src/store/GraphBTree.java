@@ -54,6 +54,7 @@ public class GraphBTree extends Graph {
 		List<Result> ret = new ArrayList<Result>();
 		Short k = this.keystore.getK(key);
 		List<LElement> r = ePropBTree.search(k);
+		// System.out.println(r);
 		for(LElement e : r ) {
 			Result newr = new Result();
 			newr.path.add(e.src);

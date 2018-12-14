@@ -20,7 +20,8 @@ class LNode extends Node {
 	public List<LElement> getValues(int index, int direction) {
 		Short key = this.keys[index];
 		List<LElement> ret = new ArrayList<LElement>();
-		List<LElement> l = new ArrayList<LElement>();
+		ArrayList<LElement> l = new ArrayList<LElement>();
+		List<LElement> tmp = null;
 		
 		while(index < this.getKeyCount() && this.keys[index] == key) {
 			ret.add(this.values[index]);
@@ -29,15 +30,20 @@ class LNode extends Node {
 
 		if(this.leftSibling != null && direction <= 0) {
 			int i = this.leftSibling.search(key);
-			if(i != -1) 
-				l.addAll(((LNode)this.leftSibling).getValues(i, -1));
+			if(i != -1) {
+				tmp = ((LNode)this.leftSibling).getValues(i, -1);
+				l.ensureCapacity(l.size() + tmp.size());
+				l.addAll(tmp);
+			}
 		}
 
 		l.addAll(ret);
 		if(this.rightSibling != null && direction >= 0) {
 			int i = this.rightSibling.search(key);
 			if(i != -1) 
-				l.addAll(((LNode)this.rightSibling).getValues(i, 1));
+				tmp = ((LNode)this.rightSibling).getValues(i, 1);
+				l.ensureCapacity(l.size() + tmp.size());
+				l.addAll(tmp);
 		}
 		return l;
 	}

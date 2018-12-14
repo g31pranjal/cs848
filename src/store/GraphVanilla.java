@@ -98,6 +98,7 @@ public class GraphVanilla extends Graph{
 		while(i != 0) {
 			short k = this.ePropStore.getKeyAt(i);
 			String key = this.keystore.getV(k);
+			// System.out.println(key);
 			String val = "";
 			if(this.ePropStore.getTypeAt(i).equals("num"))
 				val = this.ePropStore.getNumAt(i).toString();
